@@ -1,0 +1,11 @@
+.tile {
+  width: 100px;
+  height: 100px;
+}
+
+#chessboard .black-tile {
+  background: #779556;
+}
+#chessboard .white-tile {
+  background: #ebecd0;
+}
