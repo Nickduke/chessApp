@@ -37,8 +37,37 @@ for (let i = 0; i < 8; i++) {
   pieces.push({ image: './assets/images/pawn_w.png', x: i, y: 1 });
 }
 
+let activePiece: HTMLElement | null = null;
+
 const grabPiece = (e: React.MouseEvent) => {
-  console.log(e.target);
+  const el = e.target as HTMLElement;
+  if (el.classList.contains('chess-piece')) {
+    const x = e.clientX - 50;
+    const y = e.clientY - 50;
+    el.style.position = 'absolute';
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+
+    activePiece = el;
+  }
+};
+
+const movePiece = (e: React.MouseEvent) => {
+  const el = e.target as HTMLElement;
+
+  if (activePiece) {
+    const x = e.clientX - 50;
+    const y = e.clientY - 50;
+    el.style.position = 'absolute';
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+  }
+};
+
+const dropPiece = (e: React.MouseEvent) => {
+  if (activePiece) {
+    activePiece = null;
+  }
 };
 
 export default function Chessboard() {
@@ -61,7 +90,12 @@ export default function Chessboard() {
   }
 
   return (
-    <div onMouseDown={(e) => grabPiece(e)} id='chessboard'>
+    <div
+      onMouseMove={(e) => movePiece(e)}
+      onMouseDown={(e) => grabPiece(e)}
+      onMouseUp={(e) => dropPiece(e)}
+      id='chessboard'
+    >
       {board}
     </div>
   );
