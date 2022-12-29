@@ -5,6 +5,18 @@
   height: 100px;
 }
 
+.tile .chess-piece {
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90px;
+}
+
+.chess-piece:hover {
+  cursor: grab;
+}
+
 .black-tile {
   background: #779556;
 }
@@ -13,6 +25,6 @@
   background: #ebecd0;
 }
 
-.tile .chess-piece-image {
+.tile img {
   width: 90px;
 }

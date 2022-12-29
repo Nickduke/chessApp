@@ -1,3 +1,4 @@
+import React, { MouseEvent } from 'react';
 import Tile from '../Tile/Tile';
 import './Chessboard.css';
 
@@ -36,6 +37,10 @@ for (let i = 0; i < 8; i++) {
   pieces.push({ image: './assets/images/pawn_w.png', x: i, y: 1 });
 }
 
+const grabPiece = (e: React.MouseEvent) => {
+  console.log(e.target);
+};
+
 export default function Chessboard() {
   let board = [];
 
@@ -51,9 +56,13 @@ export default function Chessboard() {
         }
       });
 
-      board.push(<Tile image={image} number={number} />);
+      board.push(<Tile key={`${i},${j}`} image={image} number={number} />);
     }
   }
 
-  return <div id='chessboard'>{board}</div>;
+  return (
+    <div onMouseDown={(e) => grabPiece(e)} id='chessboard'>
+      {board}
+    </div>
+  );
 }
