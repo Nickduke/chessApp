@@ -1,11 +1,18 @@
 .tile {
+  display: grid;
+  place-content: center;
   width: 100px;
   height: 100px;
 }
 
-#chessboard .black-tile {
+.black-tile {
   background: #779556;
 }
-#chessboard .white-tile {
+
+.white-tile {
   background: #ebecd0;
+}
+
+.tile .chess-piece-image {
+  width: 90px;
 }
