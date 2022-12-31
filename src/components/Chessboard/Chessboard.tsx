@@ -56,16 +56,37 @@ export default function Chessboard() {
 
   const movePiece = (e: React.MouseEvent) => {
     const chessboard = chessboardRef.current;
-    const el = e.target as HTMLElement;
 
     if (activePiece && chessboard) {
-      const minX = chessboard.style.left;
-      const minY = chessboard.style.top;
+      const minX = chessboard.offsetLeft - 25;
+      const minY = chessboard.offsetTop - 25;
+      const maxX = chessboard.offsetLeft + chessboard.clientWidth - 75;
+      const maxY = chessboard.offsetTop + chessboard.clientHeight - 75;
       const x = e.clientX - 50;
       const y = e.clientY - 50;
-      el.style.position = 'absolute';
-      el.style.left = `${x}px`;
-      el.style.top = `${y}px`;
+      activePiece.style.position = 'absolute';
+
+      if (x < minX) {
+        // if x is smaller than min amount
+        activePiece.style.left = `${minX}px`;
+      } else if (x > maxX) {
+        // if x is bigger than min amount
+        activePiece.style.left = `${maxX}px`;
+      } else {
+        // if x is in the constraints
+        activePiece.style.left = `${x}px`;
+      }
+
+      if (y < minX) {
+        // if y is smaller than min amount
+        activePiece.style.top = `${minY}px`;
+      } else if (y > maxX) {
+        // if y is bigger than min amount
+        activePiece.style.top = `${maxY}px`;
+      } else {
+        // if y is in the constraints
+        activePiece.style.top = `${y}px`;
+      }
     }
   };
 
