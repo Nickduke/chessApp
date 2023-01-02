@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import Tile from '../Tile/Tile';
 import './Chessboard.css';
@@ -12,33 +12,74 @@ interface Piece {
   y: number;
 }
 
-const pieces: Piece[] = [];
+const intitialBoardState: Piece[] = [];
 
 for (let p = 0; p < 2; p++) {
   const type = p === 0 ? 'b' : 'w';
   const y = p === 0 ? 7 : 0;
 
-  pieces.push({ image: `./assets/images/rook_${type}.png`, x: 7, y: y });
-  pieces.push({ image: `./assets/images/rook_${type}.png`, x: 0, y: y });
-  pieces.push({ image: `./assets/images/knight_${type}.png`, x: 1, y: y });
-  pieces.push({ image: `./assets/images/knight_${type}.png`, x: 6, y: y });
-  pieces.push({ image: `./assets/images/bishop_${type}.png`, x: 5, y: y });
-  pieces.push({ image: `./assets/images/bishop_${type}.png`, x: 2, y: y });
-  pieces.push({ image: `./assets/images/queen_${type}.png`, x: 3, y: y });
-  pieces.push({ image: `./assets/images/king_${type}.png`, x: 4, y: y });
-}
+  intitialBoardState.push({
+    image: `./assets/images/rook_${type}.png`,
+    x: 7,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/rook_${type}.png`,
+    x: 0,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/knight_${type}.png`,
+    x: 1,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/knight_${type}.png`,
+    x: 6,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/bishop_${type}.png`,
+    x: 5,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/bishop_${type}.png`,
+    x: 2,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/queen_${type}.png`,
+    x: 3,
+    y: y,
+  });
+  intitialBoardState.push({
+    image: `./assets/images/king_${type}.png`,
+    x: 4,
+    y: y,
+  });
 
-// black pawns
-for (let i = 0; i < 8; i++) {
-  pieces.push({ image: './assets/images/pawn_b.png', x: i, y: 6 });
-}
+  // black pawns
+  for (let i = 0; i < 8; i++) {
+    intitialBoardState.push({
+      image: './assets/images/pawn_b.png',
+      x: i,
+      y: 6,
+    });
+  }
 
-// white pawns
-for (let i = 0; i < 8; i++) {
-  pieces.push({ image: './assets/images/pawn_w.png', x: i, y: 1 });
+  // white pawns
+  for (let i = 0; i < 8; i++) {
+    intitialBoardState.push({
+      image: './assets/images/pawn_w.png',
+      x: i,
+      y: 1,
+    });
+  }
 }
 
 export default function Chessboard() {
+  const [pieces, setPieces] = useState<Piece[]>(intitialBoardState);
   let activePiece: HTMLElement | null = null;
 
   const grabPiece = (e: React.MouseEvent) => {
@@ -90,11 +131,20 @@ export default function Chessboard() {
     }
   };
 
-  const dropPiece = (e: React.MouseEvent) => {
+  function dropPiece(e: React.MouseEvent) {
     if (activePiece) {
+      setPieces((value) => {
+        value.map((p) => {
+          if (p.x === 0 && p.y === 0) {
+            p.x = 5;
+          }
+          return p;
+        });
+        return pieces;
+      });
       activePiece = null;
     }
-  };
+  }
 
   let board = [];
   const chessboardRef = useRef<HTMLDivElement>(null);
